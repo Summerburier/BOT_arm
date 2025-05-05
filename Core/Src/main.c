@@ -118,7 +118,9 @@ int main(void)
 		KEY_Init(); // 初始化按键
     delay_init(168);
     if(KEY_Scan(0) == KEY0_PRES){
-        arm_task();
+        //arm_task();
+        servoMotor_init();
+        catchServoMotor();
         
     }
     

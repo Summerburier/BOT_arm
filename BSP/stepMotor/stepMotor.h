@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 // ==== 预留定时器和通道宏定义（请根据实际CubeMX配置填写） ====
-#define MOTOR0_TIM      htim2
+#define MOTOR0_TIM      htim1
 #define MOTOR0_CHANNEL  TIM_CHANNEL_2
 
 #define MOTOR1_TIM      htim3
