@@ -37,6 +37,9 @@
                     "path": "Core/Src/gpio.c"
                   },
                   {
+                    "path": "Core/Src/dma.c"
+                  },
+                  {
                     "path": "Core/Src/tim.c"
                   },
                   {
@@ -179,7 +182,7 @@
       "toolchain": "AC5",
       "compileConfig": {
         "cpuType": "Cortex-M4",
-        "floatingPointHardware": "none",
+        "floatingPointHardware": "single",
         "scatterFilePath": "",
         "useCustomScatterFile": false,
         "storageLayout": {
@@ -329,11 +332,12 @@
           "SYSTEM/delay",
           "SYSTEM/sys",
           "MDK-ARM/RTE/_BOT",
-          "BSP/servoMotor",
           "BSP/BELT",
+          "BSP/servoMotor",
           "BSP/stepMotor",
+          "USER",
           "BSP/OPENMV",
-          "USER"
+          "BSP/Motor"
         ],
         "libList": [],
         "defineList": [

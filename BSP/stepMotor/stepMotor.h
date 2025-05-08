@@ -34,12 +34,5 @@ void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t
 void stepMotorSync(uint8_t addr);
 
 
-
-
-
-
-
-
-
 #endif // !_STEP_MOTOR_H
 #define _STEP_MOTOR_H

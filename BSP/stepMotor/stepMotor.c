@@ -42,7 +42,7 @@ void stepMotorEn(uint8_t addr, bool state, bool snF)
 void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t clk, bool raF, bool snF)
 {
   uint8_t cmd[16] = {0};
-
+  //char fuck[] = "fuck";
   // 装载命令
   cmd[0]  =  addr;                      // 地址
   cmd[1]  =  0xFD;                      // 功能码
@@ -59,7 +59,8 @@ void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t
   cmd[12] =  0x6B;                      // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 13);
+  //HAL_UART_Transmit(&huart1, (uint8_t *)fuck,sizeof(fuck),1000);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 13,1000);
 }
 
 /**

@@ -33,7 +33,7 @@
 #include "string.h"
 #include "identify.h"
 #include "task.c"
-
+#include "motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -118,13 +118,37 @@ int main(void)
    
 		KEY_Init(); // 初始化按键
     delay_init(168);
-    if(KEY_Scan(0) == KEY0_PRES){
-        //arm_task();
-        servoMotor_init();
-        catchServoMotor();
-        
+    LED_Init(); // 初始化LED
+    belt_off(); // 打开传送带
+    Motor_Init(1000); // 初始化电机，设置默认脉冲数为1000
+    Motor_Run(5000);                                                                                                                                                                                                                                                                                                                                                                                                                  
+    if(KEY_Scan(0) == KEY0_PRES) // 按下KEY0
+    {
+        Motor_Run(5000);
+        delay_ms(1000); 
+        Motor_Run(-5000);// 向前运行1000脉冲
+        LED1 = !LED1; // 切换LED1状态
+        //delay_ms(100); // 延时100ms
+        //stepMotorRun(0x01, 0, 4000, 200, 195000, 0, 0);
+        //delay_ms(100);
+        //stepMotorRun(0x02, 0, 4000, 200, 2500, 0, 0);
+        //delay_ms(100);
+        //rotateServoMotor();
+        //delay_ms(100);
+        //catchServoMotor();
+        //delay_ms(100);
+        //releaseServoMotor();
+        //rotateServoMotor();
+        //delay_ms(100);
+       // stepMotorSync(0x00); 
+         // 打开传送带
     }
-    
+    if(KEY_Scan(0) == WKUP_PRES) // 按下WKUP
+    {
+        //LED2 = !LED2; // 切换LED2状态
+        delay_ms(100); // 延时100ms
+        stepMotorRun(0x01, 0, 4000, 200, 90000, 0, 0);
+    }
     
            
 	}

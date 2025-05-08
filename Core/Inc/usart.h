@@ -39,7 +39,8 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
-
+#define USART_DMA_TX_BUFFER_MAXIMUM			128    // DMA缓冲区大小
+#define USART_DMA_RX_BUFFER_MAXIMUM			128   // DMA缓冲区大小
 
 /* USER CODE END Private defines */
 

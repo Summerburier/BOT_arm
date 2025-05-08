@@ -21,8 +21,8 @@ void arm_init(void)
     delay_init(168);
     initServoMotor();
     releaseServoMotor();
-    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
     stepMotorRun(1, 0, 3000, 200, 100000,false,true);
+    stepMotorRun(2, 0, 3000, 200, 100000,false,true);
     stepMotorRun(2, 0, 3000, 200, 100000,false,true);
 }   
 
