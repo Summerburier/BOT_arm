@@ -35,8 +35,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
-#include <stdio.h>
-extern UART_HandleTypeDef huart1;
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
   */
@@ -598,31 +596,6 @@ void HAL_DisableMemorySwappingBank(void)
 {
   *(__IO uint32_t *)UFB_MODE_BB = (uint32_t)DISABLE;
 }
-
-/**
-  * 函数功能: 重定向c库函数printf到DEBUG_USARTx
-  * 输入参数: 无
-  * 返 回 值: 无
-  * 说    明：无
-  */
- int fputc(int ch, FILE *f)
- {
-   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-   return ch;
- }
-  
- /**
-   * 函数功能: 重定向c库函数getchar,scanf到DEBUG_USARTx
-   * 输入参数: 无
-   * 返 回 值: 无
-   * 说    明：无
-   */
- int fgetc(FILE *f)
- {
-   uint8_t ch = 0;
-   HAL_UART_Receive(&huart1, &ch, 1, 0xffff);
-   return ch;
- }
 #endif /* STM32F427xx || STM32F437xx || STM32F429xx || STM32F439xx || STM32F469xx || STM32F479xx */
 /**
   * @}

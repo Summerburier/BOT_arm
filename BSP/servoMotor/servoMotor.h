@@ -2,6 +2,7 @@
 #define _SERVO_MOTOR_H
 #include "main.h"
 #include "usart.h"
+#include "dma.h"
 
 
 #define catch "2500"

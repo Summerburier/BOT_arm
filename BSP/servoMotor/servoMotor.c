@@ -22,29 +22,29 @@ void setdata(const char* num, const char* pwm, const char* time)
 void servoMotor_init(void)
 {
     setdata(servoMotor1,release,"0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16, 100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
     setdata(servoMotor2,init,"0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16,100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }
 
 void catchServoMotor(void)
 {
     setdata(servoMotor1,catch,"0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16,100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }
 void releaseServoMotor(void)
 {
     setdata(servoMotor1,release,"0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16,100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }
 void initServoMotor(void)
 {
     setdata(servoMotor2,init,"0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16,100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }
 
 void rotateServoMotor(void)
 {
    setdata(servoMotor2,"2500","0500");
-    HAL_UART_Transmit(&huart2, (uint8_t*)cmd, 16,100);
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }
