@@ -10,7 +10,7 @@ int place[4]= {0,0,0,0}; // 记录每个物品的位置
 void arm_init(void)
 {
     // 初始化步进电机
-    motorInit();
+    //motorInit();
     // 初始化舵机
     servoMotor_init();
     // 初始化LED
@@ -21,42 +21,39 @@ void arm_init(void)
     delay_init(168);
     initServoMotor();
     releaseServoMotor();
-    motorCurveMove(&motor0, 1000, 0.1, 0.1, 1000);
-    motorCurveMove(&motor1, 1000, 0.1, 0.1, 1000);
-    motorCurveMove(&motor2, 1000, 0.1, 0.1, 1000);
+    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
+    stepMotorRun(1, 0, 3000, 200, 100000,false,true);
+    stepMotorRun(2, 0, 3000, 200, 100000,false,true);
 }   
 
 int armToConveyer(int *result)  // 修正参数类型
 {
-    motorCurveMove(&motor0, 1000, 0.1, 0.1, 1000);
+    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
     belt_on();
     delay_ms(1000);
     belt_off();
     OpenMV_SendIdentifyCmd();
     if(OpenMV_GetResult((uint8_t*)result) == 0){ // 确保类型匹配
-        motorCurveMove(&motor1, 1000, 0.1, 0.1, 1000);
+        stepMotorRun(0, 0, 3000, 200, 100000,false,true);
         catchServoMotor();
         delay_ms(1000);
-        motorCurveMove(&motor1, 1000, 0.1, 0.1, -1000);
+        stepMotorRun(0, 1, 3000, 200, 100000,false,true);
         return 1;
     }
     else{
-        motorCurveMove(&motor0, 1000, 0.1, 0.1, -1000);
+        stepMotorRun(0, 0, 3000, 200, 100000,false,true);
         return 0;
     }
 }
 
 void armToTable(int now, int place) // 改为void类型
 {
-    motorCurveMove(&motor2, 1000, 0.1, 0.1, 1000);
+    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
     rotateServoMotor();
-    motorCurveMove(&motor3, 1000, 0.1, 0.1, now-place);
-    motorCurveMove(&motor0, 1000, 0.1, 0.1, 1000);
-    motorCurveMove(&motor1, 1000, 0.1, 0.1, 1000);
+    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
     releaseServoMotor();
     initServoMotor();
-    motorCurveMove(&motor0, 1000, 0.1, 0.1, -1000);
-    motorCurveMove(&motor1, 1000, 0.1, 0.1, -1000);
+    stepMotorRun(0, 0, 3000, 200, 100000,false,true);
 }
 
 void arm_task(void)
@@ -70,8 +67,7 @@ void arm_task(void)
             now = place[result[0]];
         }
         else{
-            motorCurveMove(&motor0, 1000, 0.1, 0.1, -1000);
-            motorCurveMove(&motor1, 1000, 0.1, 0.1, -1000);
+            stepMotorRun(0, 0, 3000, 200, 100000,false,true);
         }
     }
 }
