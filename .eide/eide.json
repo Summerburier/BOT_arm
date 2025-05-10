@@ -336,8 +336,12 @@
           "BSP/servoMotor",
           "BSP/stepMotor",
           "USER",
+<<<<<<< HEAD
           "BSP/OPENMV",
           "BSP/Motor"
+=======
+          "BSP/OPENMV"
+>>>>>>> 9c160f942fa0d3ceb8655bd9ffe5418100eeb85a
         ],
         "libList": [],
         "defineList": [
