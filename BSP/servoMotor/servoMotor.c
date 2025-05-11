@@ -45,6 +45,6 @@ void initServoMotor(void)
 
 void rotateServoMotor(void)
 {
-   setdata(servoMotor2,"2500","0500");
+   setdata(servoMotor2,rotate,"0500");
     HAL_UART_Transmit_DMA(&huart2, (uint8_t*)cmd, 16);
 }

@@ -97,6 +97,8 @@ void Error_Handler(void);
 #define MOTOR2_PUL_GPIO_Port GPIOD
 #define BELT_Pin GPIO_PIN_7
 #define BELT_GPIO_Port GPIOC
+#define KEY2_Pin GPIO_PIN_12
+#define KEY2_GPIO_Port GPIOC
 #define ROW1_Pin GPIO_PIN_11
 #define ROW1_GPIO_Port GPIOG
 #define ROW2_Pin GPIO_PIN_12
@@ -105,6 +107,8 @@ void Error_Handler(void);
 #define ROW3_GPIO_Port GPIOG
 #define ROW4_Pin GPIO_PIN_14
 #define ROW4_GPIO_Port GPIOG
+#define KEY1_Pin GPIO_PIN_15
+#define KEY1_GPIO_Port GPIOG
 #define COL3_Pin GPIO_PIN_0
 #define COL3_GPIO_Port GPIOE
 #define COL4_Pin GPIO_PIN_1

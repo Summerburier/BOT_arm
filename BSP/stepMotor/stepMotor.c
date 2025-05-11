@@ -1,15 +1,44 @@
 #include "stepMotor.h"
 
 
-
-
 /**
-  * @brief    使能信号控制
+  * @brief    将当前位置清零
   * @param    addr  ：电机地址
-  * @param    state ：使能状态     ，true为使能电机，false为关闭电机
-  * @param    snF   ：多机同步标志 ，false为不启用，true为启用
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
   */
+void stepMotorSetZero(uint8_t addr)
+{
+  uint8_t cmd[16] = {0};
+  
+  // 装载命令
+  cmd[0] =  addr;                       // 地址
+  cmd[1] =  0x0A;                       // 功能码
+  cmd[2] =  0x6D;                       // 辅助码
+  cmd[3] =  0x6B;                       // 校验字节
+  
+  // 发送命令
+	HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
+}
+
+/**
+  * @brief    解除堵转保护
+  * @param    addr  ：电机地址
+  * @retval   地址 + 功能码 + 命令状态 + 校验字节
+  */
+void stepMotorReset(uint8_t addr)
+{
+  uint8_t cmd[16] = {0};
+  
+  // 装载命令
+  cmd[0] =  addr;                       // 地址
+  cmd[1] =  0x0E;                       // 功能码
+  cmd[2] =  0x52;                       // 辅助码
+  cmd[3] =  0x6B;                       // 校验字节
+  
+  // 发送命令
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
+}
+
 void stepMotorEn(uint8_t addr, bool state, bool snF)
 {
   uint8_t cmd[16] = {0};
@@ -23,9 +52,8 @@ void stepMotorEn(uint8_t addr, bool state, bool snF)
   cmd[5] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 6);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 6,1000);
 }
-
 
 
 /**
@@ -42,7 +70,7 @@ void stepMotorEn(uint8_t addr, bool state, bool snF)
 void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t clk, bool raF, bool snF)
 {
   uint8_t cmd[16] = {0};
-  //char fuck[] = "fuck";
+
   // 装载命令
   cmd[0]  =  addr;                      // 地址
   cmd[1]  =  0xFD;                      // 功能码
@@ -59,7 +87,6 @@ void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t
   cmd[12] =  0x6B;                      // 校验字节
   
   // 发送命令
-  //HAL_UART_Transmit(&huart1, (uint8_t *)fuck,sizeof(fuck),1000);
   HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 13,1000);
 }
 
@@ -81,7 +108,7 @@ void stepMotorStop(uint8_t addr, bool snF)
   cmd[4] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 5);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 5,1000);
 }
 
 /**
@@ -100,5 +127,32 @@ void stepMotorSync(uint8_t addr)
   cmd[3] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 4);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
 }
+
+
+
+
+/**
+  * @brief    触发回零
+  * @param    addr   ：电机地址
+  * @param    o_mode ：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+  * @param    snF   ：多机同步标志，false为不启用，true为启用
+  * @retval   地址 + 功能码 + 命令状态 + 校验字节
+  */
+void stepMotorToZero(uint8_t addr, uint8_t o_mode, bool snF)
+{
+  uint8_t cmd[16] = {0};
+  
+  // 装载命令
+  cmd[0] =  addr;                       // 地址
+  cmd[1] =  0x9A;                       // 功能码
+  cmd[2] =  o_mode;                     // 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+  cmd[3] =  snF;                        // 多机同步运动标志，false为不启用，true为启用
+  cmd[4] =  0x6B;                       // 校验字节
+  
+  // 发送命令
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 5,1000);
+}
+
+

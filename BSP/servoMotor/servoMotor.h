@@ -5,9 +5,10 @@
 #include "dma.h"
 
 
-#define catch "1200"
+#define catch "1250"
 #define release "1900"
-#define init "0500"
+#define init "0800"
+#define rotate "1500"
 #define servoMotor1 "000"
 #define servoMotor2 "001"
 

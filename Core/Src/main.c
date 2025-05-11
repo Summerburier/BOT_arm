@@ -119,29 +119,21 @@ int main(void)
 		KEY_Init(); // 初始化按键
     delay_init(168);
     LED_Init(); // 初始化LED
-    belt_off(); // 打开传送带
-    Motor_Init(1000); // 初始化电机，设置默认脉冲数为1000
-    Motor_Run(5000);                                                                                                                                                                                                                                                                                                                                                                                                                  
-    if(KEY_Scan(0) == KEY0_PRES) // 按下KEY0
+    //belt_off(); // 打开传送带
+    // HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                           
+   if(KEY_Scan(0) == KEY0_PRES) // 按下KEY0
     {
-        Motor_Run(5000);
-        delay_ms(1000); 
-        Motor_Run(-5000);// 向前运行1000脉冲
-        LED1 = !LED1; // 切换LED1状态
-        //delay_ms(100); // 延时100ms
-        //stepMotorRun(0x01, 0, 4000, 200, 195000, 0, 0);
-        //delay_ms(100);
-        //stepMotorRun(0x02, 0, 4000, 200, 2500, 0, 0);
-        //delay_ms(100);
-        //rotateServoMotor();
-        //delay_ms(100);
-        //catchServoMotor();
-        //delay_ms(100);
-        //releaseServoMotor();
-        //rotateServoMotor();
-        //delay_ms(100);
-       // stepMotorSync(0x00); 
-         // 打开传送带
+        
+      // stepMotorRun(0x03, 0, 3000, 200, 16540,false,false);
+      arm_task(); // 执行机械臂任务
+      //HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+
+
     }
     if(KEY_Scan(0) == WKUP_PRES) // 按下WKUP
     {

@@ -32,6 +32,10 @@ void stepMotorEn(uint8_t addr,bool state,bool snF);
 void stepMotorStop(uint8_t addr,bool snF);
 void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t clk, bool raF, bool snF);
 void stepMotorSync(uint8_t addr);
+void stepMotorSetZero(uint8_t addr);
+void stepMotorToZero(uint8_t addr, uint8_t o_mode, bool snF);
+void stepMotorReset(uint8_t addr);
+
 
 
 #endif // !_STEP_MOTOR_H
