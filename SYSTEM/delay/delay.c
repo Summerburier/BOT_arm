@@ -1,8 +1,8 @@
 #include "delay.h"
 #include "sys.h"
-#if SYSTEM_SUPPORT_OS
-#include "includes.h"					//ucos 使用	  
-#endif
+// #if SYSTEM_SUPPORT_OS
+// #include "includes.h"					//ucos 使用	  
+// #endif
 
 
 static u32 fac_us=0;							//us延时倍乘数
