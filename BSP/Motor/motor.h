@@ -1,13 +1,23 @@
-#ifndef MOTOR_H
-#define MOTOR_H
+#ifndef __MOTOR_H__
+#define __MOTOR_H__
 
-#include "stm32f4xx_hal.h"
-#include "main.h" // 包含引脚定义
+#include "tim.h"
+#define COUNT_PWM_TIMER htim1
+#define PWM_CHANNEL     TIM_CHANNEL_2
 
-// 使用TIM2通道2（根据PA7的复用功能选择）
-#define MOTOR1_PUL_TIM      TIM2
-#define MOTOR1_PUL_CHANNEL  TIM_CHANNEL_2 // PA7对应TIM2_CH2
+// prescaler 越小越快
+#define MAX_PRESCALER   (100)
+#define MIN_PRESCALER   (25)
+#define MCU_FREQUENCY   (168000000.0f)
 
-void Motor_Init(uint32_t default_pulses);
-void Motor_Run(int32_t pulses);
-#endif
+#define STEP_PULSE      (1600) // 一圈需要1600个脉冲
+#define PARAM_A(x)      (4.0f * (MAX_PRESCALER - MIN_PRESCALER) / (x) / (x))
+
+extern __IO uint8_t done_flag;
+
+// void HAL_Count_PWM_Generator_Init(void);
+void HAL_Count_PWM_Generate(uint16_t count);
+void HAL_Count_PWM_Generator_Callback(TIM_HandleTypeDef *htim);
+void HAL_ShelfTurn(uint8_t dir, uint16_t count);
+
+#endif // !

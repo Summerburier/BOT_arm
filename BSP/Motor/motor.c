@@ -1,47 +1,73 @@
 #include "motor.h"
-#include "tim.h"
-#include "stdlib.h"
-static TIM_HandleTypeDef *htim_motor = &htim2;
+#include "main.h"
+#include "stdio.h"
 
-void Motor_Init(uint32_t default_pulses) {
-    // 配置TIM2通道2为翻转模式
-    TIM_OC_InitTypeDef sConfigOC = {0};
-    
-    htim_motor->Instance->ARR = default_pulses * 2; // 翻转模式需要双倍计数值
-    htim_motor->Instance->CCR2 = 0;                 // 初始比较值
-    
-    sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-    sConfigOC.Pulse = 0;
-    sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-    sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    HAL_TIM_OC_ConfigChannel(htim_motor, &sConfigOC, MOTOR1_PUL_CHANNEL);
-    
-    // 初始化GPIO状态
-    HAL_GPIO_WritePin(MOTOR1_DIR_GPIO_Port, MOTOR1_DIR_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(MOTOR1_ENA_GPIO_Port, MOTOR1_ENA_Pin, GPIO_PIN_RESET);
+__IO uint8_t done_flag = HAL_OK;
+static uint16_t n = 0;
+static uint16_t set_n = 0;
+static float param_a = 0;
+
+// void HAL_Count_PWM_Generator_Init(void) {
+//   /*初始化主定时器,这个函数已经被mx_timx_init调用 */
+//   // HAL_TIM_Base_Init(&COUNT_PWM_TIMER);
+// }
+
+void HAL_Count_PWM_Generate(uint16_t count) {
+  // __HAL_TIM_SET_PRESCALER(&SLAVE_TIMER, 125 - 1);
+  // // 设置从定时器的计数值，当计数值到达时，产生中断
+  // __HAL_TIM_SET_AUTORELOAD(&SLAVE_TIMER, count - 1);
+  __HAL_TIM_SET_COUNTER(&COUNT_PWM_TIMER, 0);              // 清零计数器
+  __HAL_TIM_CLEAR_FLAG(&COUNT_PWM_TIMER, TIM_FLAG_UPDATE); // 清除更新中断标志
+  n = 0;
+  set_n = count - 1;
+  done_flag = HAL_BUSY;
+  param_a = PARAM_A(set_n);
+  __HAL_TIM_SET_PRESCALER(&COUNT_PWM_TIMER, MAX_PRESCALER - 1);
+
+  HAL_TIM_Base_Start_IT(&COUNT_PWM_TIMER);
+  // HAL_TIM_PWM_Start_IT(&COUNT_PWM_TIMER, PWM_CHANNEL);
+  HAL_TIM_PWM_Start(&COUNT_PWM_TIMER, PWM_CHANNEL);
 }
 
-void Motor_Run(int32_t pulses) {
-    // 设置方向（根据脉冲符号）
-    GPIO_PinState dir = (pulses >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
-    HAL_GPIO_WritePin(MOTOR1_DIR_GPIO_Port, MOTOR1_DIR_Pin, dir);
-    
-    // 计算实际脉冲数
-    uint32_t pulse_count = abs(pulses) * 2; // 每个脉冲需要两次翻转
-    
-    // 更新定时器参数
-    __HAL_TIM_SET_AUTORELOAD(htim_motor, pulse_count);
-    __HAL_TIM_SET_COMPARE(htim_motor, MOTOR1_PUL_CHANNEL, 0);
-    
-    // 使能电机并启动定时器
-    HAL_GPIO_WritePin(MOTOR1_ENA_GPIO_Port, MOTOR1_ENA_Pin, GPIO_PIN_SET);
-    HAL_TIM_OC_Start_IT(htim_motor, MOTOR1_PUL_CHANNEL);
-    
-    // 等待脉冲完成
-    while(!__HAL_TIM_GET_FLAG(htim_motor, TIM_FLAG_CC2));
-    __HAL_TIM_CLEAR_FLAG(htim_motor, TIM_FLAG_CC2);
-    
-    // 停止输出
-    HAL_TIM_OC_Stop_IT(htim_motor, MOTOR1_PUL_CHANNEL);
-    HAL_GPIO_WritePin(MOTOR1_ENA_GPIO_Port, MOTOR1_ENA_Pin, GPIO_PIN_RESET);
+/**
+ * @brief 生成变化、特定数量的PWM波形的回调函数
+ *
+ * @param htim
+ */
+void HAL_Count_PWM_Generator_Callback(TIM_HandleTypeDef *htim) {
+  // if (htim == &SLAVE_TIMER) {
+  //   // 使用__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_CC2) != RESET
+  //   // 来判断是否是这个通道产生的中断
+  //   但是这里我们只使用一个通道，所以不需要判断
+  //   HAL_TIM_PWM_Stop(&MASTER_TIMER, PWM_CHANNEL); // 关闭主定时器
+  //   __HAL_TIM_CLEAR_FLAG(&SLAVE_TIMER,
+  //                        TIM_FLAG_UPDATE); // 清除中断标志,用于下一次计数
+  // }
+
+  uint32_t prescaler = (uint32_t)(param_a * (n - set_n / 2) * (n - set_n / 2) +
+                                  MIN_PRESCALER - 1);
+  __HAL_TIM_SET_PRESCALER(&COUNT_PWM_TIMER, prescaler);
+  n++;
+  // time += (prescaler) * (1999) / MCU_FREQUENCY.0f;
+  if (n >= set_n) {
+    HAL_TIM_Base_Stop_IT(&COUNT_PWM_TIMER);
+    // HAL_TIM_Base_Stop(&COUNT_PWM_TIMER);
+    HAL_TIM_PWM_Stop(&COUNT_PWM_TIMER, PWM_CHANNEL);
+    // HAL_TIM_PWM_Stop_IT(&COUNT_PWM_TIMER, PWM_CHANNEL);
+    // MX_TIM3_Init();
+    done_flag = HAL_OK;
+  }
+  // printf("%d,%d,%f,%f\n", n, prescaler,
+  //        360.0f * MCU_FREQUENCY / (800 * prescaler * 1999), time);
+}
+
+void Turn(uint8_t dir, uint16_t count) {
+  if (dir) {
+    HAL_GPIO_WritePin(MOTOR0_DIR_GPIO_Port, MOTOR0_DIR_Pin, GPIO_PIN_SET);
+  } else {
+    HAL_GPIO_WritePin(MOTOR0_DIR_GPIO_Port,MOTOR0_DIR_Pin, GPIO_PIN_RESET);
+  }
+  if (count > 0) {
+    HAL_Count_PWM_Generate(count);
+  }
 }
