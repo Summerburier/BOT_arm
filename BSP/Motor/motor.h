@@ -18,6 +18,6 @@ extern __IO uint8_t done_flag;
 // void HAL_Count_PWM_Generator_Init(void);
 void HAL_Count_PWM_Generate(uint16_t count);
 void HAL_Count_PWM_Generator_Callback(TIM_HandleTypeDef *htim);
-void HAL_ShelfTurn(uint8_t dir, uint16_t count);
+void Turn(uint8_t dir, uint16_t count);
 
 #endif // !

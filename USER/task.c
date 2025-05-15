@@ -27,6 +27,12 @@ void arm_init(void)
     delay_ms(100);
     stepMotorEn(3, true, false);
     delay_ms(100);
+    stepMotorReset(0x01);
+    delay_ms(1000);
+    stepMotorReset(0x02);
+    delay_ms(1000);
+    stepMotorReset(0x03);
+    delay_ms(1000);
 
 }   
 
@@ -91,10 +97,10 @@ void arm_task(void)
     delay_ms(2000);
     armToTable();
 //     delay_ms(2000);
-// stepMotorReset(0x01);
-//     stepMotorRun(0x01, 1, 3000, 200,5000,false,false);
+//stepMotorReset(0x02);
+//    stepMotorRun(0x01, 1, 3000, 200,5000,false,false);
     //delay_ms(2000);
-    //stepMotorRun(3, 0, 3000, 200, 16150,false,false);
+//stepMotorRun(3, 1, 3000, 200, 1050,false,false);
     // while(1){
     // if(armToConveyer(result) == 1){
     // armToTable(now,place[result[0]]);

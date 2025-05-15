@@ -17,7 +17,7 @@ void stepMotorSetZero(uint8_t addr)
   cmd[3] =  0x6B;                       // 校验字节
   
   // 发送命令
-	HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 4);
+	HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
 }
 
 /**
@@ -36,7 +36,7 @@ void stepMotorReset(uint8_t addr)
   cmd[3] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 4);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
 }
 
 void stepMotorEn(uint8_t addr, bool state, bool snF)
@@ -52,7 +52,7 @@ void stepMotorEn(uint8_t addr, bool state, bool snF)
   cmd[5] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 6);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 6,1000);
 }
 
 
@@ -87,7 +87,7 @@ void stepMotorRun(uint8_t addr, uint8_t dir, uint16_t vel, uint8_t acc, uint32_t
   cmd[12] =  0x6B;                      // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 13);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 13,1000);
 }
 
 /**
@@ -108,7 +108,7 @@ void stepMotorStop(uint8_t addr, bool snF)
   cmd[4] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 5);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 5,1000);
 }
 
 /**
@@ -127,7 +127,7 @@ void stepMotorSync(uint8_t addr)
   cmd[3] =  0x6B;                       // 校验字节
   
   // 发送命令
-  HAL_UART_Transmit_DMA(&huart1, (uint8_t *)cmd, 4);
+  HAL_UART_Transmit(&huart1, (uint8_t *)cmd, 4,1000);
 }
 
 

@@ -119,36 +119,45 @@ int main(void)
 		KEY_Init(); // 初始化按键
     delay_init(168);
     LED_Init(); // 初始化LED
-    //belt_off(); // 打开传送带
-    // HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+     // 打开传送带
+     while(KEY_Scan(0) != KEY1_PRES){
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+      
+     }
 
-
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+    // if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_12) == GPIO_PIN_RESET){
+    //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
+    // delay_ms(500);
+    // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
+    // delay_ms(500);
+    //  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+    // delay_ms(500);
+    // HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+    // delay_ms(500);
+      
+    // }
+    // if(HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_15) == GPIO_PIN_RESET){
+       
+    //    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
+    // delay_ms(500);
+    // HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET);
+    // delay_ms(500);
+    //  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_RESET);
+    // delay_ms(500);
+    // HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
+    // delay_ms(500);
 
 
                                                                                                                                                                                                                                                                                                                                                                                            
-   if(KEY_Scan(0) == KEY0_PRES) // 按下KEY0
-    {
-        
-      // stepMotorRun(0x03, 0, 3000, 200, 16540,false,false);
-      arm_task(); // 执行机械臂任务
-      //HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
-
-
-    }
-    if(KEY_Scan(0) == WKUP_PRES) // 按下WKUP
-    {
-        //LED2 = !LED2; // 切换LED2状态
-        delay_ms(100); // 延时100ms
-        stepMotorRun(0x01, 0, 4000, 200, 90000, 0, 0);
-    }
-    
-           
-	}
+   
+	//}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   
   /* USER CODE END 3 */
+}
 }
 
 /**
