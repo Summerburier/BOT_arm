@@ -33,16 +33,19 @@ void OpenMV_SendIdentifyCmd(void)
 
 // 解析OpenMV回传数据，返回2字节数组 result[0]=形状 result[1]=颜色
 // 假设回传格式：0xA5, 形状, 颜色
-uint8_t rx_buf[3];
+uint8_t rx_buf[5];
 
 // 返回值：0成功，-1失败
-int OpenMV_GetResult(uint8_t result[2])
+int OpenMV_GetResult(uint8_t result[4])
 {
     OpenMV_SendIdentifyCmd();
     if (HAL_UART_Receive(&huart3, rx_buf, 3, 500) == HAL_OK) {
         if (rx_buf[0] == OPENMV_CMD_START) {
             result[0] = rx_buf[1]; // 形状编号
             result[1] = rx_buf[2]; // 颜色编号
+            result[2] = rx_buf[3]; // 形状中心X坐标
+            result[3] = rx_buf[4]; // 形状中心Y坐标
+
             return 0;
         }
     }

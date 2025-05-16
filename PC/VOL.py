@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 # 加载模型（只加载一次，避免每帧都加载）
-model = YOLO(r'./best.pt')
+model = YOLO(r'./PC/best.pt')
 # 0 梯形
 # 1 圆形
 # 2 三角形
