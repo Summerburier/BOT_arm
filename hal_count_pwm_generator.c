@@ -61,11 +61,11 @@ void HAL_Count_PWM_Generator_Callback(TIM_HandleTypeDef *htim) {
   //        360.0f * MCU_FREQUENCY / (800 * prescaler * 1999), time);
 }
 
-void Turn(uint8_t dir, uint16_t count) {
+void HAL_ShelfTurn(uint8_t dir, uint16_t count) {
   if (dir) {
-    HAL_GPIO_WritePin(MOTOR1_DIR_GPIO_Port, MOTOR1_DIR_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(SHELF_DIR_GPIO_Port, SHELF_DIR_Pin, GPIO_PIN_SET);
   } else {
-    HAL_GPIO_WritePin(MOTOR1_DIR_GPIO_Port, MOTOR1_DIR_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(SHELF_DIR_GPIO_Port, SHELF_DIR_Pin, GPIO_PIN_RESET);
   }
   if (count > 0) {
     HAL_Count_PWM_Generate(count);

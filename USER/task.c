@@ -113,10 +113,10 @@ void tableRelease(){
     stepMotorRun(2, 1, 3000, 200, 42500,false,false);
     delay_ms(3000);
 }
-void conveyerToTable(int* place){ 
+void conveyerToTable(){ 
     int result[4];
     detectObject(result);
-    if(detectObject(result) == 1){
+    if(detectObject(result) != 1){
         conveyerCatch();
         delay_ms(3000);
         stepMotorRun(1, 1, 5000, 200, 125000,false,false);
@@ -152,23 +152,26 @@ void arm_task(void)
     servoMotor_init();
     belt_on();
     armToConveyer();
-    while(1){
-        int maxdelay = 10000;
-        if(detect() == 1&& maxdelay > 0){
-            conveyerToTable(place);
+    // while(1){
+    //     int maxdelay = 10000;
+    //     if(detect() == 1&& maxdelay > 0){
+    //         conveyerToTable(place);
+    //         tableToConveyer();
+    //         delay_ms(1000);
+    //         belt_on();
+    //     }
+    //     else if(detect() == 0&& maxdelay > 0){
+    //         maxdelay--;
+    //         delay_ms(1);
+            
+    //     }
+    //     else{
+    //         armReturn();
+    //     }
+    // }
+     conveyerToTable();
             tableToConveyer();
             delay_ms(1000);
-            belt_on();
-        }
-        else if(detect() == 0&& maxdelay > 0){
-            maxdelay--;
-            delay_ms(1);
-            
-        }
-        else{
-            armReturn();
-        }
-    }
     // while(detect() == 1){
     //     conveyerToTable(place);
     //     tableToConveyer();

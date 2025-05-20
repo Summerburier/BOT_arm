@@ -115,17 +115,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-   
-		KEY_Init(); // 初始化按键
-    delay_init(168);
-    LED_Init(); // 初始化LED
-     // 打开传送带
-     while(KEY_Scan(0) != KEY1_PRES){
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-      
-     }
-
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+   // Adjust the parameters as needed
+   Turn(1, 10000); // Reduced value to fit into 16-bit integer, adjust as needed
+		// ...existing code...
+// MX_TIM3_Init();
+// HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+// __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 500); // 假设Period=1000，占空比50%
+// ...existing code...
+    // catchServoMotor();
+    // delay_ms(1000);
+    // releaseServoMotor();
+    // delay_ms(1000);
+    //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
     // if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_12) == GPIO_PIN_RESET){
     //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET);
     // delay_ms(500);
@@ -148,16 +149,19 @@ int main(void)
     // HAL_GPIO_WritePin(GPIOG, GPIO_PIN_6, GPIO_PIN_SET);
     // delay_ms(500);
 
-
+    // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
+    // HAL_Delay(1000);
+    // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
+    // HAL_Delay(1000);
                                                                                                                                                                                                                                                                                                                                                                                            
    
 	//}
+  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   
   /* USER CODE END 3 */
-}
 }
 
 /**

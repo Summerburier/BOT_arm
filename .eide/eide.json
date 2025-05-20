@@ -337,7 +337,8 @@
           "BSP/stepMotor",
           "USER",
           "BSP/OPENMV",
-          "BSP/Motor"
+          "BSP/Motor",
+          "BSP/Infrared"
         ],
         "libList": [],
         "defineList": [
